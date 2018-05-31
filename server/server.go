@@ -6,8 +6,9 @@ import (
 	"net/http"
 	"strconv"
 
-	"github.com/gorilla/websocket"
 	"time"
+
+	"github.com/gorilla/websocket"
 )
 
 type Server struct {
@@ -89,4 +90,13 @@ func (server *Server) getUserByConn(conn *websocket.Conn) *User {
 
 func makeTimestamp() int64 {
 	return time.Now().Unix() * int64(time.Millisecond)
+}
+
+func contains(s []*User, x string) bool {
+	for _, a := range s {
+		if a.Username == x {
+			return true
+		}
+	}
+	return false
 }
