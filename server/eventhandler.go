@@ -9,6 +9,8 @@ type EventHandler struct {
 	Server *Server
 }
 
+const waitTime int64  = 1000
+
 func (eh *EventHandler) handleEvent(user *User, event map[string]interface{}) {
 	if _, ok := event["event"].(string); ok {
 
@@ -20,11 +22,15 @@ func (eh *EventHandler) handleEvent(user *User, event map[string]interface{}) {
 }
 
 func (eh *EventHandler) EventMessage(user *User, data map[string]interface{}) {
+
 	if user.Username == "" {
 		eh.Server.sendNotification(user, "Set username first")
+	} else if makeTimestamp() < (user.lastMessageMilis + waitTime)  {
+		eh.Server.sendNotification(user, "You have to wait before sending new message")
 	} else {
 		for _, usr := range eh.Server.Users {
 			eh.Server.sendMessageToUser(usr, user, data["message"].(string))
+			user.lastMessageMilis = makeTimestamp()
 		}
 	}
 }

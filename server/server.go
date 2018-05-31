@@ -7,6 +7,7 @@ import (
 	"strconv"
 
 	"github.com/gorilla/websocket"
+	"time"
 )
 
 type Server struct {
@@ -84,4 +85,8 @@ func (server *Server) getUserByConn(conn *websocket.Conn) *User {
 		}
 	}
 	return nil
+}
+
+func makeTimestamp() int64 {
+	return time.Now().Unix() * int64(time.Millisecond)
 }
