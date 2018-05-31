@@ -52,8 +52,8 @@ func (server *Server) handleWS(w http.ResponseWriter, r *http.Request) {
 func (server *Server) startServer() {
 	flag.Parse()
 	log.SetFlags(0)
-	http.HandleFunc("/chat", server.handleWS)
-	log.Fatal(http.ListenAndServe(*addr, nil))
+	http.HandleFunc("/ws", server.handleWS)
+	log.Fatal(http.ListenAndServe(":2148", nil))
 }
 
 func main() {
