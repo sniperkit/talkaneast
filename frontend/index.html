@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<title>Talka Neast</title>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+<link rel="stylesheet" href="index.css">
+<script type="text/javascript" src="chat.js"></script>
+</head>
+<body onload="init()">
+<div class="columns">
+    <div class="column is-10">
+        <div id="log">
+        </div>
+    <div id="msgcontrols">
+        <input type="text" class="input is-primary" id="msg" placeholder=" Your message here"/>
+        <button class="button is-primary" id="sendmsg" onclick="sendFunc()">Send message</button>
+        <button class="button is-primary" id="addnick" onclick="openNickModel()">Change nick</button>
+    </div>
+    </div>
+    <div class="column is-2">
+
+
+    </div>
+</div>
+
+<div id="modalnick" class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+                <input type="text" class="input" id="nickname" placeholder="Choose nickname"/>
+                <button class="button is-primary" id="setnick" onclick="newNick()">Set</button>
+        </div>
+        <button class="modal-close is-large" aria-label="ok"></button>
+      </div>
+</body>
+</html>

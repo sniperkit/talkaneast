@@ -1,0 +1,30 @@
+html {
+    overflow: hidden;
+}
+
+#msg {
+    width: 60%;
+}
+
+#log {
+    position: absolute;
+    overflow: auto;
+    height: 90%;
+    width: 80%;
+}
+
+#sendmsg {
+    width: 10%;
+}
+
+#nickname {
+    width: 90%;
+}
+
+#msgcontrols {
+    position: absolute;
+    bottom: 0;
+    left: 0;
+    right: 0;
+    margin: auto;
+}
