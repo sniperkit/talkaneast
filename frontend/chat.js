@@ -21,7 +21,13 @@ function init() {
             document.getElementById("setnick").click();
         }
     }
+
 );
+getChannels();
+
+}
+
+function getChannels() {
 }
 
 function sendFunc() {
@@ -34,6 +40,7 @@ function newNick() {
     const nick = document.getElementById("nickname").value
     socket.send(JSON.stringify({"event": "SetNick", "data": { "nickname": nick }}))
     document.getElementById("modalnick").classList.remove("is-active");
+    socket.send(JSON.stringify({"event": "ListChannels", "data": {}}));
 }
 
 function openNickModel() {
@@ -43,6 +50,34 @@ function openNickModel() {
 function logMessage(event) {
     console.log(event.data)
     let data = JSON.parse(event.data)
+    switch(data["event"]) {
+        case "Message":
+            handleMessage(data);
+            break;
+        case "ChannelsList":
+            addChannels(data);
+            break;
+    }
+
+}
+
+function addChannels(data) {
+
+    data["data"].forEach((element, index) => {
+        document.getElementById("channels").innerHTML += "<button id=\"channel"+element["Name"] + "\" class=\"button\">#" + element["Name"] + "</button>"
+        document.getElementById("channel"+element["Name"]).addEventListener("click", function(){
+            joinChannel(element["Name"])
+        });
+    });
+}
+
+function joinChannel(channel) {
+    console.log(channel);
+    socket.send(JSON.stringify({"event": "SetChannel", "data": { "channel": channel }}))
+
+}
+
+function handleMessage(data) {
     document.getElementById("log").innerHTML += getMessageHTML(data["data"]);
     var elem = document.getElementById('log');
     elem.scrollTop = elem.scrollHeight;
