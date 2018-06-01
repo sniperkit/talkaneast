@@ -14,6 +14,7 @@ import (
 type Server struct {
 	Users        []*User
 	EventHandler *EventHandler
+	Channels     []*Channel
 }
 
 var addr = flag.String("addr", "localhost:8080", "http service address")
@@ -92,9 +93,18 @@ func makeTimestamp() int64 {
 	return time.Now().Unix() * int64(time.Millisecond)
 }
 
-func contains(s []*User, x string) bool {
+func containsUsers(s []*User, x string) bool {
 	for _, a := range s {
 		if a.Username == x {
+			return true
+		}
+	}
+	return false
+}
+
+func containsChannels(s []*Channel, x string) bool {
+	for _, a := range s {
+		if a.Name == x {
 			return true
 		}
 	}

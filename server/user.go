@@ -6,4 +6,5 @@ type User struct {
 	Username         string
 	Conn             *websocket.Conn
 	lastMessageMilis int64
+	CurrentChannel   *Channel
 }

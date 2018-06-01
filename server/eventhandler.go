@@ -29,16 +29,36 @@ func (eh *EventHandler) EventMessage(user *User, data map[string]interface{}) {
 		eh.Server.sendNotification(user, "You have to wait before sending new message")
 	} else {
 		for _, usr := range eh.Server.Users {
-			eh.Server.sendMessageToUser(usr, user, data["message"].(string))
-			user.lastMessageMilis = makeTimestamp()
+			if usr.CurrentChannel.Name == user.CurrentChannel.Name {
+				eh.Server.sendMessageToUser(usr, user, data["message"].(string))
+				user.lastMessageMilis = makeTimestamp()
+			}
 		}
 	}
 }
 
 func (eh *EventHandler) EventSetNick(user *User, data map[string]interface{}) {
-	if contains(eh.Server.Users, data["nickname"].(string)) {
+	if containsUsers(eh.Server.Users, data["nickname"].(string)) {
 		eh.Server.sendNotification(user, "this user already exist")
 	}
 	log.Printf("event set nick")
 	user.Username = data["nickname"].(string)
+	user.CurrentChannel = &Channel{Name: "General"}
+}
+
+func (eh *EventHandler) EventSetChannel(user *User, data map[string]interface{}) {
+	log.Printf("event set channel")
+	if containsChannels(eh.Server.Channels, data["channel"].(string)) {
+		user.CurrentChannel.Name = data["channel"].(string)
+	} else {
+		eh.Server.sendNotification(user, "this channel does not exist")
+	}
+}
+
+func (eh *EventHandler) EventCreateChannel(user *User, data map[string]interface{}) {
+	log.Printf("event create channel")
+	if containsChannels(eh.Server.Channels, data["name"].(string)) {
+		eh.Server.sendNotification(user, "this channel already exist")
+	}
+	eh.Server.Channels = append(eh.Server.Channels, &Channel{Name: data["name"].(string)})
 }
