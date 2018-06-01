@@ -1,4 +1,4 @@
-# Talkaneast [![Discord](https://discordapp.com/api/guilds/367325058353594378/embed.png)]()
+# Talkaneast 
 ### Real time terminal chat written in go
 
 # Possible Client -> Server events
