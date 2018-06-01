@@ -1,29 +1,36 @@
 import 'package:flutter/foundation.dart';
-import 'package:web_socket_channel/io.dart';
 import 'package:flutter/material.dart';
-import 'package:web_socket_channel/web_socket_channel.dart';
+import 'api/api.dart';
+import 'api/talkaneast.dart';
+import 'widget_message_input.dart';
+import 'package:rxdart/rxdart.dart';
+import 'models/message.dart';
 
 void main() => runApp(new MyApp());
 
 class MyApp extends StatelessWidget {
+  final ChatApi chatApi = new TalkaneastApi();
+
   @override
   Widget build(BuildContext context) {
-    final title = 'WebSocket Demo';
+    chatApi.connect();
+    final title = 'Talkaneast';
+
     return new MaterialApp(
       title: title,
       home: new MyHomePage(
+        chatApi: chatApi,
         title: title,
-        channel: new IOWebSocketChannel.connect('ws://echo.websocket.org'),
       ),
     );
   }
 }
 
 class MyHomePage extends StatefulWidget {
+  final ChatApi chatApi;
   final String title;
-  final WebSocketChannel channel;
 
-  MyHomePage({Key key, @required this.title, @required this.channel})
+  MyHomePage({Key key, @required this.title, @required this.chatApi})
       : super(key: key);
 
   @override
@@ -31,7 +38,13 @@ class MyHomePage extends StatefulWidget {
 }
 
 class _MyHomePageState extends State<MyHomePage> {
-  TextEditingController _controller = new TextEditingController();
+  List<Message> messages = new List();
+
+  @override
+  void initState() {
+    super.initState();
+    widget.chatApi.messageSubject.stream.listen(_handleMessage);
+  }
 
   @override
   Widget build(BuildContext context) {
@@ -42,43 +55,36 @@ class _MyHomePageState extends State<MyHomePage> {
       body: new Padding(
         padding: const EdgeInsets.all(20.0),
         child: new Column(
-          crossAxisAlignment: CrossAxisAlignment.start,
           children: <Widget>[
-            new Form(
-              child: new TextFormField(
-                controller: _controller,
-                decoration: new InputDecoration(labelText: 'Send a message'),
-              ),
-            ),
-            new StreamBuilder(
-              stream: widget.channel.stream,
-              builder: (context, snapshot) {
-                return new Padding(
-                  padding: const EdgeInsets.symmetric(vertical: 24.0),
-                  child: new Text(snapshot.hasData ? '${snapshot.data}' : ''),
+            new Expanded(
+              child: new ListView(
+              shrinkWrap: true,
+              reverse: true,
+              children: messages.map((Message message) {
+                return new Row(children: 
+                [ new Text(message.username + " :" + message.message)]
                 );
-              },
+              }).toList(),
+            ),
+            ),
+            new MessageInputWidget(
+              chatApi: widget.chatApi,
             )
           ],
         ),
       ),
-      floatingActionButton: new FloatingActionButton(
-        onPressed: _sendMessage,
-        tooltip: 'Send message',
-        child: new Icon(Icons.send),
-      ), // This trailing comma makes auto-formatting nicer for build methods.
     );
   }
 
-  void _sendMessage() {
-    if (_controller.text.isNotEmpty) {
-      widget.channel.sink.add(_controller.text);
-    }
+  void _handleMessage(Message message) {
+    setState(() {
+      messages.insert(0, message);
+    });
   }
 
   @override
   void dispose() {
-    widget.channel.sink.close();
     super.dispose();
+    widget.chatApi.dispose();
   }
 }
