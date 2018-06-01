@@ -62,3 +62,7 @@ func (eh *EventHandler) EventCreateChannel(user *User, data map[string]interface
 	}
 	eh.Server.Channels = append(eh.Server.Channels, &Channel{Name: data["name"].(string)})
 }
+
+func (eh *EventHandler) EventListChannels(user *User, data map[string]interface{}) {
+	eh.Server.sendChannelsToUser(user)
+}
