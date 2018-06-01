@@ -5,7 +5,7 @@ const (
 )
 
 type Channel struct {
-	Name string
+	Name string `json:"name"`
 }
 
 func (server *Server) sendChannelsToUser(user *User) {
