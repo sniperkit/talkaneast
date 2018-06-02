@@ -83,7 +83,8 @@ function joinChannel(channel) {
 
 function handleMessage(data) {
     document.getElementById("log").innerHTML += getMessageHTML(data["data"]);
-    elem.scrollTop = elem.scrollHeight;
+    const div = document.getElementById('log');
+    div.scrollTop = div.scrollHeight
 }
 
 function getMessageHTML(message) {
