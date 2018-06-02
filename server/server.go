@@ -33,7 +33,7 @@ func (server *Server) handleWS(w http.ResponseWriter, r *http.Request) {
 	}
 
 	log.Println("Registered user " + strconv.Itoa(len(server.Users)))
-	server.Users = append(server.Users, &User{Conn: c})
+	server.Users = append(server.Users, &User{Conn: c, CurrentChannel: server.Channels[0]})
 
 	defer c.Close()
 
@@ -60,7 +60,8 @@ func (server *Server) startServer() {
 
 func main() {
 	server := &Server{
-		Users: make([]*User, 0),
+		Users:    make([]*User, 0),
+		Channels: append(make([]*Channel, 0), &Channel{Name: "general"}),
 	}
 
 	server.EventHandler = &EventHandler{Server: server}

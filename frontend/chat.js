@@ -67,15 +67,16 @@ function handleEvent(event) {
 function addChannels(data) {
     document.getElementById("channels").innerHTML = "";
     data["data"].forEach((element, index) => {
-        document.getElementById("channels").innerHTML += "<button id=\"channel"+element["Name"] + "\" class=\"button\">#" + element["Name"] + "</button><br/>"
-        document.getElementById("channel"+element["Name"]).addEventListener("click", function(){
-            joinChannel(element["Name"])
+        document.getElementById("channels").innerHTML += "<button id=\"channel"+element["name"] + "\" class=\"button\">#" + element["name"] + "</button><br/>"
+        document.getElementById("channel"+element["name"]).addEventListener("click", function(){
+            joinChannel(element["name"])
         });
     });
 }
 
 function joinChannel(channel) {
     console.log(channel);
+    document.getElementById("log").innerHTML = "";
     socket.send(JSON.stringify({"event": "SetChannel", "data": { "channel": channel }}))
 
 }
