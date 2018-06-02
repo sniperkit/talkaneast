@@ -2,81 +2,36 @@
 <html lang="en">
 <head>
 <title>Talka Neast</title>
-<style type="text/css">
-html {
-    overflow: hidden;
-}
-body {
-    overflow: hidden;
-    padding: 0;
-    margin: 0;
-    width: 100%;
-    height: 100%;
-    background: #FF5733;
-}
-#log {
-    background: #FA502B;
-    margin: 0;
-    padding: 0.5em 0.5em 0.5em 0.5em;
-    position: absolute;
-    top: 0.5em;
-    left: 0.5em;
-    right: 0.5em;
-    bottom: 3em;
-    overflow: auto;
-}
-#form {
-    padding: 0 0.5em 0 0.5em;
-    margin: 0;
-    position: absolute;
-    bottom: 1em;
-    left: 0px;
-    width: 100%;
-    overflow: hidden;
-}
-#but {
-    border-radius: 5px;
-}
-#but1 {
-    border-radius: 5px;
-}
-</style>
+<link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/bulma/0.7.1/css/bulma.min.css">
+<script defer src="https://use.fontawesome.com/releases/v5.0.7/js/all.js"></script>
+<link rel="stylesheet" href="index.css">
+<script type="text/javascript" src="chat.js"></script>
 </head>
 <body onload="init()">
-<div id="log">
+<div class="columns">
+    <div class="column is-10">
+        <div id="log">
+        </div>
+    <div id="msgcontrols">
+        <input type="text" class="input is-primary" id="msg" placeholder=" Your message here"/>
+        <button class="button is-primary" id="sendmsg" onclick="sendFunc()">Send message</button>
+        <button class="button is-primary" id="addnick" onclick="openNickModel()">Change nick</button>
+        
+    </div>
+    </div>
+    <div id="channels" class="column is-2">
 
+
+    </div>
 </div>
-<form id="form">
-    <input type="text" id="msg" placeholder=" Your message here"/>
-    <input type="button" value="Send" id="sendButton" onclick="sendFunc()"/> 
 
-    <input type="text" id="user" placeholder=" Your nick name here" />
-    <input type="button" value="LOG IN" id="loginButton" onclick="newNick()"/>
-</form>
-<script type="text/javascript">
-var socket = new WebSocket('ws://80.211.54.149:2148/ws');
-
-function init() {
-    console.log("Talka Neast");
-    socket.onmessage = logMessage;
-}
-
-function sendFunc() {
-    const message = document.getElementById("msg").value;
-    socket.send(JSON.stringify({"event": "Message", "data": { "message": message }}));
-    document.getElementById('msg').value = ' '
-}
-
-function newNick() {
-    const nick = document.getElementById("user").value
-    socket.send(JSON.stringify({"event": "SetNick", "data": { "nickname": nick }}))
-}
-
-function logMessage(event) {
-    console.log(event.data)
-    let data = JSON.parse(event.data)
-    document.getElementById("log").innerHTML += "<br/>" + data["data"]["username"] + " : " + data["data"]["message"]
-}
-</script>
+<div id="modalnick" class="modal is-active">
+        <div class="modal-background"></div>
+        <div class="modal-content">
+                <input type="text" class="input" id="nickname" placeholder="Choose nickname"/>
+                <button class="button is-primary" id="setnick" onclick="newNick()">Set</button>
+        </div>
+        <button class="modal-close is-large" aria-label="ok"></button>
+      </div>
 </body>
 </html>

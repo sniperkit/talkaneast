@@ -4,7 +4,7 @@ const socket = new WebSocket('ws://80.211.54.149:2148/ws');
 
 function init() {
     console.log("Talka Neast");
-    socket.onmessage = logMessage
+    socket.onmessage = handleEvent;
     document.getElementById("msg")
         .addEventListener("keyup", function(event) {
             event.preventDefault();
@@ -23,15 +23,15 @@ function init() {
     }
 
 );
-getChannels();
-
 }
 
-function getChannels() {
-}
+function scrollToBottom(){
+    const div = document.getElementById('log');
+    div.scrollTop = div.scrollHeight - div.clientHeight;
+ }
 
 function sendFunc() {
-    let message = document.getElementById("msg").value;
+    const message = document.getElementById("msg").value;
     socket.send(JSON.stringify({"event": "Message", "data": { "message": message }}));
     document.getElementById("msg").value = "";
 }
@@ -47,9 +47,9 @@ function openNickModel() {
     document.getElementById("modalnick").classList.add("is-active");
 }
 
-function logMessage(event) {
+function handleEvent(event) {
     console.log(event.data)
-    let data = JSON.parse(event.data)
+    const data = JSON.parse(event.data)
     switch(data["event"]) {
         case "Message":
             handleMessage(data);
@@ -57,29 +57,32 @@ function logMessage(event) {
         case "ChannelsList":
             addChannels(data);
             break;
+        case "Notification":
+            handleMessage(data);
+            break;
     }
 
 }
 
 function addChannels(data) {
-
+    document.getElementById("channels").innerHTML = "";
     data["data"].forEach((element, index) => {
-        document.getElementById("channels").innerHTML += "<button id=\"channel"+element["Name"] + "\" class=\"button\">#" + element["Name"] + "</button>"
-        document.getElementById("channel"+element["Name"]).addEventListener("click", function(){
-            joinChannel(element["Name"])
+        document.getElementById("channels").innerHTML += "<button id=\"channel"+element["name"] + "\" class=\"button\">#" + element["name"] + "</button><br/>"
+        document.getElementById("channel"+element["name"]).addEventListener("click", function(){
+            joinChannel(element["name"])
         });
     });
 }
 
 function joinChannel(channel) {
     console.log(channel);
+    document.getElementById("log").innerHTML = "";
     socket.send(JSON.stringify({"event": "SetChannel", "data": { "channel": channel }}))
 
 }
 
 function handleMessage(data) {
     document.getElementById("log").innerHTML += getMessageHTML(data["data"]);
-    const elem = document.getElementById('log');
     elem.scrollTop = elem.scrollHeight;
 }
 
