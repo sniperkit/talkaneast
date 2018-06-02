@@ -23,9 +23,12 @@ function init() {
     }
 
 );
-getChannels();
-
 }
+
+function scrollToBottom(){
+    const div = document.getElementById('log');
+    div.scrollTop = div.scrollHeight - div.clientHeight;
+ }
 
 function getChannels() {
 }
@@ -79,8 +82,7 @@ function joinChannel(channel) {
 
 function handleMessage(data) {
     document.getElementById("log").innerHTML += getMessageHTML(data["data"]);
-    var elem = document.getElementById('log');
-    elem.scrollTop = elem.scrollHeight;
+    scrollToBottom();
 }
 
 function getMessageHTML(message) {
