@@ -1,4 +1,4 @@
-var socket = new WebSocket('ws://80.211.54.149:2148/ws');
+const socket = new WebSocket('ws://80.211.54.149:2148/ws');
 
 
 
@@ -79,7 +79,7 @@ function joinChannel(channel) {
 
 function handleMessage(data) {
     document.getElementById("log").innerHTML += getMessageHTML(data["data"]);
-    var elem = document.getElementById('log');
+    const elem = document.getElementById('log');
     elem.scrollTop = elem.scrollHeight;
 }
 
