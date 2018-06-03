@@ -77,7 +77,15 @@ func (uc *UsersController) EventLoginUser(client *core.Client, data map[string]i
 	}
 }
 
-func (uc *UsersController) EventLogoutUser(client *core.Client, session *core.Session, data map[string]interface{}) {
+func (uc *UsersController) EventLogoutUser(client *core.Client, sess *core.Session, data map[string]interface{}) {
+	sess.Active = false
+	uc.app.Db.C("sessions").Update(bson.M{
+		"_id": sess.ID,
+	}, bson.M{
+		"$set": bson.M{
+			"active": false,
+		},
+	})
 }
 
 /*
