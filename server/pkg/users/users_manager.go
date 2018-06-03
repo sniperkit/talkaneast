@@ -1,8 +1,8 @@
 package users
 
 import (
+	"github.com/NNeast/talkaneast/server/pkg/core"
 	"github.com/gorilla/websocket"
-	"github.com/nneast/talkaneast/server/pkg/core"
 )
 
 type UsersManager struct {

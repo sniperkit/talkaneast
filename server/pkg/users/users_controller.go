@@ -3,7 +3,7 @@ package users
 import (
 	"log"
 
-	"github.com/nneast/talkaneast/server/pkg/core"
+	"github.com/NNeast/talkaneast/server/pkg/core"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
 )
