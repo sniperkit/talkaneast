@@ -1,9 +1,12 @@
 package core
 
-import "github.com/gorilla/websocket"
+import (
+	"github.com/gorilla/websocket"
+	"gopkg.in/mgo.v2/bson"
+)
 
 type Client struct {
-	UserID string
+	UserID bson.ObjectId
 	Conn   *websocket.Conn
 }
 

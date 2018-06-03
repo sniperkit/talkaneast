@@ -9,7 +9,7 @@ const (
 type Message struct {
 	ID       bson.ObjectId `json:"id" bson:"_id,omitempty"`
 	Content  string        `json:"content" bson:"content"`
-	Username string        `json:"username" bson:"username"`
+	AuthorID string        `json:"author_id" bson:"author_id"`
 }
 
 /*func (server *core.Server) sendMessageToUser(receiver *users.User, sender *users.User, message string) {

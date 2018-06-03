@@ -75,6 +75,8 @@ func (uc *UsersController) EventLoginUser(client *core.Client, data map[string]i
 		event := core.CreateEvent("SessionData", sessMap)
 		client.SendEvent(&event)
 	}
+
+	client.UserID = user.ID
 }
 
 func (uc *UsersController) EventLogoutUser(client *core.Client, sess *core.Session, data map[string]interface{}) {
