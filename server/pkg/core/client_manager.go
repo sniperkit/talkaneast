@@ -1,16 +1,23 @@
 package core
 
-import "github.com/gorilla/websocket"
+import (
+	"strconv"
+
+	"github.com/gorilla/websocket"
+	log "github.com/sirupsen/logrus"
+)
 
 type ClientManager struct {
 	Clients []*Client
 }
 
 func (cm *ClientManager) registerConnection(conn *websocket.Conn) {
+	log.Info("Registered user " + strconv.Itoa(len(cm.Clients)))
 	cm.Clients = append(cm.Clients, &Client{Conn: conn})
 }
 
 func (cm *ClientManager) removeConnection(conn *websocket.Conn) {
+	log.Info("User disconnected")
 	cm.removeUserByConn(conn)
 }
 

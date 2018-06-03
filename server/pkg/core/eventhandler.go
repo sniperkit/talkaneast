@@ -28,10 +28,25 @@ func (eh *EventHandler) handleEvent(client *Client, event map[string]interface{}
 			_, ok := cRef.MethodByName("Event" + event["event"].(string))
 
 			if ok {
-				args := []reflect.Value{reflect.ValueOf(client), reflect.ValueOf(event["data"].(map[string]interface{}))}
 				cRef := reflect.ValueOf(h.Value.(EventController))
 				method := cRef.MethodByName("Event" + event["event"].(string))
-				method.Call(args)
+
+				data := event["data"].(map[string]interface{})
+				switch method.Type().NumIn() {
+				case 2:
+					args := []reflect.Value{reflect.ValueOf(client), reflect.ValueOf(data)}
+					method.Call(args)
+				case 3:
+					sess, err := CheckUserMiddleware(eh.App, data)
+					if err == nil {
+						args := []reflect.Value{reflect.ValueOf(client), reflect.ValueOf(sess), reflect.ValueOf(data)}
+						method.Call(args)
+					} else {
+						print("SOMETHING WENT WRONG")
+						event := CreateEvent("Error", CreateError("Something went wrong", 2015))
+						client.SendEvent(&event)
+					}
+				}
 			}
 		}
 	}

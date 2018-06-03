@@ -30,8 +30,8 @@ func (app *Application) handleWS(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	defer c.Close()
 	app.ClientManager.registerConnection(c)
+	defer c.Close()
 
 	for {
 		var response map[string]interface{}
@@ -53,6 +53,7 @@ func (app *Application) Run() {
 	app.ClientManager = &ClientManager{
 		Clients: make([]*Client, 0),
 	}
+
 	flag.Parse()
 	http.HandleFunc("/ws", app.handleWS)
 
@@ -67,5 +68,6 @@ func (app *Application) Run() {
 	app.Db = sess.DB(app.DbOverride) // get DB specified in DbOverride or the mongo url (https://godoc.org/gopkg.in/mgo.v2#Session.DB)
 
 	app.EventHandler.registerHandlers()
+	log.Info("Started listening")
 	log.Fatal(http.ListenAndServe(":2148", nil))
 }

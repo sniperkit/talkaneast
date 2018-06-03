@@ -7,6 +7,6 @@ type Client struct {
 	Conn   *websocket.Conn
 }
 
-func (c *Client) sendEvent(event *Event) {
+func (c *Client) SendEvent(event *Event) {
 	c.Conn.WriteJSON(event)
 }
