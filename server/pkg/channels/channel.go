@@ -1,7 +1,7 @@
 package channels
 
 import (
-	"github.com/nneast/talkaneast/server/pkg/messages"
+	"github.com/NNeast/talkaneast/server/pkg/messages"
 	"gopkg.in/mgo.v2/bson"
 )
 

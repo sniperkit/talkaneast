@@ -1,7 +1,7 @@
 package messages
 
 import (
-	"github.com/nneast/talkaneast/server/pkg/core"
+	"github.com/NNeast/talkaneast/server/pkg/core"
 )
 
 type MessageController struct {
