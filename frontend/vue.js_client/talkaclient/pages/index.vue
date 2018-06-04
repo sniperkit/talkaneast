@@ -11,7 +11,7 @@
         <a
           href="https://github.com/NNeast/talkaneast"
           target="_blank"
-          class="button--grey">GitHub</a>
+          class="button--grey">Check GitHub</a>
       </div>
     </div>
   </section>
