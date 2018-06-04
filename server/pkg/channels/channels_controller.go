@@ -7,6 +7,7 @@ import (
 	"github.com/NNeast/talkaneast/server/pkg/messages"
 
 	"github.com/NNeast/talkaneast/server/pkg/core"
+	"github.com/NNeast/talkaneast/server/pkg/users"
 	"github.com/fatih/structs"
 	mgo "gopkg.in/mgo.v2"
 	"gopkg.in/mgo.v2/bson"
@@ -95,6 +96,28 @@ func (cc *ChannelsController) EventQueryMessages(client *core.Client, session *c
 	}
 
 	event := core.CreateEvent("QueryMessages", results)
+	client.SendEvent(&event)
+}
+
+func (cc *ChannelsController) EventSetChannel(client *core.Client, session *core.Session, data map[string]interface{}) {
+	var results users.User
+
+	err := cc.app.Db.C("users").Find(bson.M{
+		"_id": session.UserID,
+	}).One(&results)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	err2 := cc.app.Db.C("users").Update(bson.M{"_id": results.ID}, bson.M{"$set": bson.M{"currentChannelID": bson.ObjectIdHex(data["channelID"].(string))}})
+
+	if err2 != nil {
+		log.Print(err2)
+	}
+
+	//collection.Update(bson.M{"_id": id}, bson.M{"$set": bson.M{"name": "new Name"}}
+	event := core.CreateEvent("SetChannel", results)
 	client.SendEvent(&event)
 }
 
