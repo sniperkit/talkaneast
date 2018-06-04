@@ -7,6 +7,12 @@
       <h2 class="subtitle">
         Client for Talka Neast Chat
       </h2>
+      <div class="links">
+        <a
+          href="https://github.com/NNeast/talkaneast"
+          target="_blank"
+          class="button--grey">GitHub</a>
+      </div>
     </div>
   </section>
 </template>
