@@ -90,15 +90,6 @@ func (uc *UsersController) EventLogoutUser(client *core.Client, sess *core.Sessi
 	})
 }
 
-/*
-func (uc *UsersController) EventSetNick(user *User, data map[string]interface{}) {
-	if containsUsers(uc.um.Users, data["nickname"].(string)) {
-		uc.server.sendNotification(user, "this user already exist")
-	}
-	log.Printf("event set nick")
-	user.Username = data["nickname"].(string)
-}*/
-
 func init() {
 	core.ControllersToRegister.PushBack(&UsersController{})
 }

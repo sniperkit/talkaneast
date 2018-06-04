@@ -2,6 +2,7 @@ package channels
 
 import (
 	"log"
+	"time"
 
 	"github.com/NNeast/talkaneast/server/pkg/messages"
 
@@ -46,7 +47,7 @@ func (cc *ChannelsController) EventCreateChannel(client *core.Client, session *c
 
 func (cc *ChannelsController) EventListChannels(client *core.Client, session *core.Session, data map[string]interface{}) {
 	var results []Channel
-	err := cc.app.Db.C("channels").Find(nil).All(&results)
+	err := cc.app.Db.C("channels").Find(nil).Select(bson.M{"messages": 0}).All(&results)
 	if err != nil {
 		log.Print(err)
 	}
@@ -57,8 +58,9 @@ func (cc *ChannelsController) EventListChannels(client *core.Client, session *co
 
 func (cc *ChannelsController) EventMessage(client *core.Client, session *core.Session, data map[string]interface{}) {
 	msg := &messages.Message{
-		Content:  data["content"].(string),
-		AuthorID: data["author_id"].(string),
+		Content:   data["content"].(string),
+		AuthorID:  session.UserID,
+		CreatedOn: time.Now(),
 	}
 
 	msg.ID = bson.NewObjectId()
@@ -74,6 +76,26 @@ func (cc *ChannelsController) EventMessage(client *core.Client, session *core.Se
 	if err != nil {
 		log.Print(err)
 	}
+
+}
+
+func (cc *ChannelsController) EventQueryMessages(client *core.Client, session *core.Session, data map[string]interface{}) {
+
+	var results Channel
+
+	err := cc.app.Db.C("channels").Find(
+		bson.M{"_id": bson.ObjectIdHex(data["channelID"].(string))}).Select(
+		bson.M{
+			"messages": bson.M{"$slice": -25},
+		},
+	).One(&results)
+
+	if err != nil {
+		log.Print(err)
+	}
+
+	event := core.CreateEvent("QueryMessages", results)
+	client.SendEvent(&event)
 }
 
 func init() {
