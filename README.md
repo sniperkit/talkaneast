@@ -1,5 +1,5 @@
 # Talkaneast 
-### Real time terminal chat written in go
+### Real time web chat written in go
 
 # Possible Client -> Server events
 - Message
