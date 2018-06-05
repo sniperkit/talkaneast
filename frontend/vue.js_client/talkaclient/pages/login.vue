@@ -1,5 +1,8 @@
 <template>
   <v-container fluid>
+      <a
+          href="/"
+          class="button--grey">HOME</a>
     <v-layout row wrap justify-center>
       <v-flex xs12 sm6>
           <v-container fluid>
@@ -8,8 +11,6 @@
                 <v-text-field
                   v-model="login"
                   label="Username"
-                  counter
-                  max="15"
                 ></v-text-field>
                 </v-flex>
                 <v-flex xs12>
