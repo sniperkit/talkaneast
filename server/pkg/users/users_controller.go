@@ -90,6 +90,19 @@ func (uc *UsersController) EventLogoutUser(client *core.Client, sess *core.Sessi
 	})
 }
 
+func (uc *UsersController) EventSetAvatar(client *core.Client, sess *core.Session, data map[string]interface{}) {
+
+	err2 := uc.app.Db.C("users").Update(bson.M{
+		"_id": sess.UserID}, bson.M{
+		"$set": bson.M{
+			"avatar_url": data["avatar_url"].(string)}})
+
+	if err2 != nil {
+		log.Print(err2)
+	}
+
+}
+
 func init() {
 	core.ControllersToRegister.PushBack(&UsersController{})
 }
