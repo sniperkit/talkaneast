@@ -64,6 +64,10 @@ func (cc *ChannelsController) EventMessage(client *core.Client, session *core.Se
 		CreatedOn: time.Now(),
 	}
 
+	if data["ImageUrl"] != nil {
+		msg.ImageUrl = data["ImageUrl"].(string)
+	}
+
 	msg.ID = bson.NewObjectId()
 
 	err := cc.app.Db.C("channels").Update(bson.M{
@@ -95,7 +99,7 @@ func (cc *ChannelsController) EventQueryMessages(client *core.Client, session *c
 	var results Channel
 
 	err := cc.app.Db.C("channels").Find(
-		bson.M{"_id": bson.ObjectIdHex(data["channelID"].(string))}).Select(
+		bson.M{"_id": bson.ObjectIdHex(data["ChannelID"].(string))}).Select(
 		bson.M{
 			"messages": bson.M{"$slice": -25},
 		},
@@ -120,7 +124,7 @@ func (cc *ChannelsController) EventSetChannel(client *core.Client, session *core
 		log.Print(err)
 	}
 
-	err2 := cc.app.Db.C("users").Update(bson.M{"_id": results.ID}, bson.M{"$set": bson.M{"currentChannelID": bson.ObjectIdHex(data["channelID"].(string))}})
+	err2 := cc.app.Db.C("users").Update(bson.M{"_id": results.ID}, bson.M{"$set": bson.M{"currentChannelID": bson.ObjectIdHex(data["ChannelID"].(string))}})
 
 	if err2 != nil {
 		log.Print(err2)
