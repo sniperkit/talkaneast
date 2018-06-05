@@ -67,7 +67,7 @@ func (cc *ChannelsController) EventMessage(client *core.Client, session *core.Se
 	msg.ID = bson.NewObjectId()
 
 	err := cc.app.Db.C("channels").Update(bson.M{
-		"_id": bson.ObjectIdHex(data["channelID"].(string)),
+		"_id": client.CurrentChannelID,
 	}, bson.M{
 		"$push": bson.M{
 			"messages": msg,
@@ -77,7 +77,17 @@ func (cc *ChannelsController) EventMessage(client *core.Client, session *core.Se
 	if err != nil {
 		log.Print(err)
 	}
+	event := core.CreateEvent("Message", msg)
 
+	var clients []*core.Client = cc.app.ClientManager.Clients
+
+	for _, clienti := range clients {
+		if &client.CurrentChannelID != nil {
+			if client.CurrentChannelID == client.CurrentChannelID {
+				clienti.SendEvent(&event)
+			}
+		}
+	}
 }
 
 func (cc *ChannelsController) EventQueryMessages(client *core.Client, session *core.Session, data map[string]interface{}) {
@@ -116,7 +126,6 @@ func (cc *ChannelsController) EventSetChannel(client *core.Client, session *core
 		log.Print(err2)
 	}
 
-	//collection.Update(bson.M{"_id": id}, bson.M{"$set": bson.M{"name": "new Name"}}
 	event := core.CreateEvent("SetChannel", results)
 	client.SendEvent(&event)
 }

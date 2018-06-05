@@ -6,8 +6,9 @@ import (
 )
 
 type Client struct {
-	UserID bson.ObjectId
-	Conn   *websocket.Conn
+	CurrentChannelID bson.ObjectId `json:"currentChannelID" structs:"currentChannelID" bson:"currentChannelID,omitempty"`
+	UserID           bson.ObjectId
+	Conn             *websocket.Conn
 }
 
 func (c *Client) SendEvent(event *Event) {
