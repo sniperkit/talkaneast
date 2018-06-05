@@ -12,11 +12,12 @@
           href="https://github.com/NNeast/talkaneast"
           target="_blank"
           class="button--grey">Check GitHub</a>
+          <a
+          class="button--grey">LOG IN</a>
       </div>
     </div>
   </section>
 </template>
-
 <style>
 .container {
   min-height: 100vh;
