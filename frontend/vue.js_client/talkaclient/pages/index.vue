@@ -1,11 +1,8 @@
 <template>
   <section class="container">
     <div>
-      <h1 class="title">
-        Talka Client
-      </h1>
       <h2 class="subtitle">
-        Client for Talka Neast Chat
+        Talka Neast
       </h2>
       <div class="links">
         <a
@@ -13,6 +10,7 @@
           target="_blank"
           class="button--grey">Check GitHub</a>
           <a
+          href="/login"
           class="button--grey">LOG IN</a>
       </div>
     </div>
