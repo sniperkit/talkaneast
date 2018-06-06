@@ -43,7 +43,7 @@ func (eh *EventHandler) handleEvent(client *Client, event map[string]interface{}
 						method.Call(args)
 					} else {
 						print("SOMETHING WENT WRONG")
-						event := CreateEvent("Error", CreateError("Something went wrong", 2015))
+						event := CreateEvent("Error", CreateSocketError("Something went wrong", 2015))
 						client.SendEvent(&event)
 					}
 				}

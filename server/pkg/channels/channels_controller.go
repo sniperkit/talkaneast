@@ -4,9 +4,8 @@ import (
 	"log"
 	"time"
 
-	"github.com/NNeast/talkaneast/server/pkg/messages"
-
 	"github.com/NNeast/talkaneast/server/pkg/core"
+	"github.com/NNeast/talkaneast/server/pkg/messages"
 	"github.com/NNeast/talkaneast/server/pkg/users"
 	"github.com/fatih/structs"
 	mgo "gopkg.in/mgo.v2"
@@ -64,31 +63,43 @@ func (cc *ChannelsController) EventMessage(client *core.Client, session *core.Se
 		CreatedOn: time.Now(),
 	}
 
+	msg.ID = bson.NewObjectId()
+
 	if data["image_url"] != nil {
 		msg.ImageUrl = data["image_url"].(string)
 	}
 
-	msg.ID = bson.NewObjectId()
+	err2 := msg.ValidateMessage()
 
-	err := cc.app.Db.C("channels").Update(bson.M{
-		"_id": client.CurrentChannelID,
-	}, bson.M{
-		"$push": bson.M{
-			"messages": msg,
-		},
-	})
+	if err2 != nil {
+		event := core.CreateEvent("Notification", err2.Message)
+		client.SendEvent(&event)
+	} else {
 
-	if err != nil {
-		log.Print(err)
-	}
-	event := core.CreateEvent("Message", msg)
+		if data["image_url"] != nil {
+			msg.ImageUrl = data["image_url"].(string)
+		}
 
-	var clients []*core.Client = cc.app.ClientManager.Clients
+		err := cc.app.Db.C("channels").Update(bson.M{
+			"_id": client.CurrentChannelID,
+		}, bson.M{
+			"$push": bson.M{
+				"messages": msg,
+			},
+		})
 
-	for _, clienti := range clients {
-		if &client.CurrentChannelID != nil {
-			if client.CurrentChannelID == client.CurrentChannelID {
-				clienti.SendEvent(&event)
+		if err != nil {
+			log.Print(err)
+		}
+		event := core.CreateEvent("Message", msg)
+
+		var clients []*core.Client = cc.app.ClientManager.Clients
+
+		for _, clienti := range clients {
+			if &client.CurrentChannelID != nil {
+				if client.CurrentChannelID == client.CurrentChannelID {
+					clienti.SendEvent(&event)
+				}
 			}
 		}
 	}

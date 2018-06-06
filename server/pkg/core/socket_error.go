@@ -7,6 +7,6 @@ type SocketError struct {
 	Code    int
 }
 
-func CreateError(message string, code int) map[string]interface{} {
+func CreateSocketError(message string, code int) map[string]interface{} {
 	return structs.Map(SocketError{Message: message, Code: code})
 }

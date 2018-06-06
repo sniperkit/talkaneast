@@ -12,7 +12,7 @@ type User struct {
 	CurrentChannelID bson.ObjectId `json:"currentChannelID" structs:"currentChannelID" bson:"currentChannelID,omitempty"`
 	Password         string        `json:"-" bson:"password"`
 	Email            string        `json:"email" bson:"email"`
-	Avatar           string        `json:"avatar" bson:"avatar"`
+	AvatarUrl        string        `json:"avatar_url" bson:"avatar_url"`
 }
 
 /*
