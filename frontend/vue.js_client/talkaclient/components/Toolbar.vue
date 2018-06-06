@@ -1,6 +1,6 @@
 <template>
 <div>
-  <v-toolbar>
+  <v-toolbar class="mx-0 px-0">
     <v-toolbar-title>Talka Neast</v-toolbar-title>
     <v-spacer></v-spacer>
     <v-toolbar-items class="hidden-sm-and-down">

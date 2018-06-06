@@ -3,8 +3,11 @@
   <toolbar></toolbar>
   <v-container>
     <v-layout row wrap align-center class="mx-5">
-      <v-flex xs12 sm6 offset-sm3>
-       <v-card class="text-xs-center pa-3 mx-5 d-block">
+      <v-flex xs12 sm6 offset-sm3> 
+       <p class="text-xs-center">
+        <img src="../static/talkaneast.png" />
+       </p>
+       <v-card class="text-xs-center pa-3 mx-5 mt-0 d-block">
         <v-text-field
         label="Username"
         >
@@ -13,7 +16,7 @@
         label="Password"
         >
         </v-text-field>
-        <v-btn>
+        <v-btn class="green">
           LOG IN
         </v-btn>
        </v-card>
