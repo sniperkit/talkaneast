@@ -16,7 +16,7 @@
         label="Password"
         >
         </v-text-field>
-        <v-btn class="green">
+        <v-btn>
           LOG IN
         </v-btn>
        </v-card>
