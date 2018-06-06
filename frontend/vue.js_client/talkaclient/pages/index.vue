@@ -5,17 +5,21 @@
         Talka Neast
       </h2>
       <div class="links">
-        <a
-          href="https://github.com/NNeast/talkaneast"
-          target="_blank"
-          class="button--grey">Check GitHub</a>
-          <a
-          href="/login"
-          class="button--grey">LOG IN</a>
+        <nuxt-link to='/register' class="button--grey">SIGN IN</nuxt-link>
+         <nuxt-link to='/login' class="button--grey">LOG IN</nuxt-link>
       </div>
     </div>
   </section>
 </template>
+<script>
+export default {
+  name: 'index',
+  data: _ => ({
+    
+  })
+}
+</script>
+
 <style>
 .container {
   min-height: 100vh;
