@@ -2,9 +2,9 @@
 <v-content>
     <toolbar></toolbar>
     <v-container>
-    <v-layout row wrap align-center>
-      <v-flex>
-       <v-card class="text-xs-center pa-3">
+    <v-layout row wrap align-center class="mx-5">
+      <v-flex xs12 sm6 offset-sm3>
+       <v-card class="text-xs-center pa-3 mx-5 d-block">
         <v-text-field
         label="Username"
         >
