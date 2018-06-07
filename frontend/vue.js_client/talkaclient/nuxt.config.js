@@ -13,7 +13,7 @@ module.exports = {
       { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
     ]
   },
-  plugins: ['~/plugins/vuetify.js'],
+  plugins: ['~/plugins/vuetify.js', { src: '~/plugins/vue-native-websocket.js', ssr: false}],
   /*
   ** Customize the progress bar color
   */

@@ -9,24 +9,32 @@
        </p>
        <v-card class="text-xs-center pa-3 mx-5 d-block">
         <v-text-field
+        v-model="username" 
         label="Username"
         >
         </v-text-field>
         <v-text-field
-        type="email"
+        v-model="email" 
+        type="email" 
+        :rules="emailRules"
         label="E-mail"
         >
         </v-text-field>
         <v-text-field
-        type="password"
+        v-model="password" 
+        type="password" 
+        :rules="passwordRules"
         label="Password"
         >
         </v-text-field>
         <v-text-field
+        type="password" 
+        :rules="passwordRules"
         label="Repeat password"
         >
         </v-text-field>
-        <v-btn>
+        <v-btn
+        @click="login">
           SIGN IN
         </v-btn>
        </v-card>
@@ -39,6 +47,39 @@
 <script>
 import Toolbar from '@/components/Toolbar'
 export default {
-  components: { Toolbar }
+  components: { Toolbar },
+  data() {
+    return {
+      error: null,
+      valid: false,
+      email: '',
+      username: '',
+      emailRules: [v => !!v || 'Email is required'],
+      password: '',
+      passwordRules: [v => !!v || 'Password is required']
+    }
+  },
+  methods: {
+    async login() {
+      this.$options.sockets.onmessage = (event) => {
+        const json = JSON.parse(event.data);
+        if (json["event"] == "UserRegistered") {
+          delete this.$options.sockets.onmessage
+          this.$router.push({
+            path: '/login'
+          })
+        }
+      }
+
+      this.$socket.sendObj({
+        "event": "RegisterUser",
+        "data": {
+          "username": this.username,
+          "password": this.password,
+          "email": this.email,
+        }}
+        )
+    }
+  }
 }
 </script>
