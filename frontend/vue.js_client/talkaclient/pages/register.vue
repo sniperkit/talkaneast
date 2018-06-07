@@ -13,10 +13,12 @@
         >
         </v-text-field>
         <v-text-field
+        type="email"
         label="E-mail"
         >
         </v-text-field>
         <v-text-field
+        type="password"
         label="Password"
         >
         </v-text-field>

@@ -13,6 +13,7 @@
         >
         </v-text-field>
         <v-text-field
+        type="password"
         label="Password"
         >
         </v-text-field>

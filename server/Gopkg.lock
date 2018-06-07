@@ -14,12 +14,6 @@
   version = "v1.2.0"
 
 [[projects]]
-  branch = "dev"
-  name = "github.com/nneast/talkaneast"
-  packages = ["server/pkg/core"]
-  revision = "ea40646c007755dab345da0d108a13beaf20d83b"
-
-[[projects]]
   name = "github.com/pkg/errors"
   packages = ["."]
   revision = "645ef00459ed84a119197bfb8d8205042c6df63d"
@@ -65,6 +59,6 @@
 [solve-meta]
   analyzer-name = "dep"
   analyzer-version = 1
-  inputs-digest = "4e6a8cc3ded8e04e7383a160281b8aee4a193d8febc99a1b4c8cd50bfd7d3a86"
+  inputs-digest = "b2755bd522eba83c7eb9367ab0739d28f2332a1d8e7315a5b5ff00cfc81709bb"
   solver-name = "gps-cdcl"
   solver-version = 1
