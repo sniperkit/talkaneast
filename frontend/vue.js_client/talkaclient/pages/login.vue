@@ -9,12 +9,16 @@
        </p>
        <v-card class="text-xs-center pa-3 mx-5 mt-0 d-block">
         <v-text-field
+        v-model="username"
         label="Username"
+        :rules="userRules"
         >
         </v-text-field>
         <v-text-field
+        v-model="password"
         type="password"
         label="Password"
+        :rules="passwordRules"
         >
         </v-text-field>
         <v-btn>
@@ -31,6 +35,18 @@
 <script>
 import Toolbar from '@/components/Toolbar'
 export default {
-  components: { Toolbar }
+  components: { Toolbar },
+  data() {
+    return {
+      error: null,
+      valid: false,
+      email: '',
+      username: '',
+      userRules: [v => !!v || 'Username is required'],
+      emailRules: [v => !!v || 'Email is required'],
+      password: '',
+      passwordRules: [v => !!v || 'Password is required']
+    }
+  }
 }
 </script>

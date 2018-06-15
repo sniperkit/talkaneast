@@ -11,6 +11,7 @@
         <v-text-field
         v-model="username" 
         label="Username"
+        :rules="userRules"
         >
         </v-text-field>
         <v-text-field
@@ -28,7 +29,8 @@
         >
         </v-text-field>
         <v-text-field
-        type="password" 
+        v-model="password"
+        type="password"
         :rules="passwordRules"
         label="Repeat password"
         >
@@ -54,6 +56,7 @@ export default {
       valid: false,
       email: '',
       username: '',
+      userRules: [v => !!v || 'Username is required'],
       emailRules: [v => !!v || 'Email is required'],
       password: '',
       passwordRules: [v => !!v || 'Password is required']
