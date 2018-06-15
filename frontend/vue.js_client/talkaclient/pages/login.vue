@@ -21,7 +21,7 @@
         :rules="passwordRules"
         >
         </v-text-field>
-        <v-btn>
+        <v-btn to="/chat" class='black--text'>
           LOG IN
         </v-btn>
        </v-card>

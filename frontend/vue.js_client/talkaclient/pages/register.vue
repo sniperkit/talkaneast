@@ -36,7 +36,7 @@
         >
         </v-text-field>
         <v-btn
-        @click="login">
+        @click="login" to="/chat" class='black--text'>
           SIGN IN
         </v-btn>
        </v-card>
