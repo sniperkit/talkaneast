@@ -6,10 +6,10 @@
 </template>
 
 <script>
-import Message from '@/components/Message'
+import Input from '@/components/Input'
 import Output from '@/components/Output'
 
 export default {
-    components: { Message, Output}
+    components: { Input, Output }
 }
 </script>
